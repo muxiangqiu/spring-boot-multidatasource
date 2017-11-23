@@ -3,8 +3,6 @@
 ```java
 #数据源配置
 spring.dataSource......
-#数据源对应的JPA配置
-#spirng.jpa......
 ```
 如果项目需要多个数据源的话，spring-boot就没有更好的方式了，只能通过自己构造DataSource的spring bean了。
 ## 多数据源配置
