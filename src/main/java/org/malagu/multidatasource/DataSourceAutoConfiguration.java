@@ -38,7 +38,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 @EnableConfigurationProperties(DataSourceProperties.class)
 @AutoConfigureAfter(org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration.class)
 public class DataSourceAutoConfiguration {
-	
+
 	@Bean
 	@ConditionalOnProperty(name = "spring.datasource1.url")
 	@ConfigurationProperties(prefix = "spring.datasource1")
