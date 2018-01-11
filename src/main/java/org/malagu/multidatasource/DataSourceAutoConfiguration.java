@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.condition.AnyNestedCondition;
 import org.springframework.boot.autoconfigure.condition.ConditionMessage;
 import org.springframework.boot.autoconfigure.condition.ConditionOutcome;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.SpringBootCondition;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
@@ -90,9 +89,22 @@ public class DataSourceAutoConfiguration {
 	
 	@Configuration
 	@Conditional(PooledDataSourceCondition.class)
-	@ConditionalOnMissingBean({ DataSource.class, XADataSource.class })
+	//@ConditionalOnMissingBean({ DataSource.class, XADataSource.class })
 	@Import({ DataSourceConfiguration.Tomcat.class, DataSourceConfiguration.Hikari.class,
-			DataSourceConfiguration.Dbcp2.class, DataSourceConfiguration.Generic.class })
+			DataSourceConfiguration.Dbcp2.class, DataSourceConfiguration.Generic.class,
+			DataSourceConfiguration.Tomcat1.class, DataSourceConfiguration.Hikari1.class,
+			DataSourceConfiguration.Dbcp21.class, DataSourceConfiguration.Generic1.class,
+			DataSourceConfiguration.Tomcat2.class, DataSourceConfiguration.Hikari2.class,
+			DataSourceConfiguration.Dbcp22.class, DataSourceConfiguration.Generic2.class,
+			DataSourceConfiguration.Tomcat3.class, DataSourceConfiguration.Hikari3.class,
+			DataSourceConfiguration.Dbcp23.class, DataSourceConfiguration.Generic3.class,
+			DataSourceConfiguration.Tomcat4.class, DataSourceConfiguration.Hikari4.class,
+			DataSourceConfiguration.Dbcp24.class, DataSourceConfiguration.Generic4.class,
+			DataSourceConfiguration.Tomcat5.class, DataSourceConfiguration.Hikari5.class,
+			DataSourceConfiguration.Dbcp25.class, DataSourceConfiguration.Generic5.class,
+			DataSourceConfiguration.Tomcat6.class, DataSourceConfiguration.Hikari6.class,
+			DataSourceConfiguration.Dbcp26.class, DataSourceConfiguration.Generic6.class,
+			})
 	protected static class PooledDataSourceConfiguration {
 
 	}

@@ -18,6 +18,7 @@ package org.malagu.multidatasource;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -59,12 +60,18 @@ abstract class DataSourceConfiguration {
 	@ConditionalOnClass(org.apache.tomcat.jdbc.pool.DataSource.class)
 	@ConditionalOnProperty(name = "spring.datasource.type", havingValue = "org.apache.tomcat.jdbc.pool.DataSource", matchIfMissing = true)
 	static class Tomcat extends DataSourceConfiguration {
-
+		@Bean
+		@Primary
+		@ConfigurationProperties(prefix = "spring.datasource")
+		public DataSourceProperties dataSourceProperties() {
+			return new DataSourceProperties();
+		}
+		
 		@Bean
 		@Primary
 		@ConfigurationProperties(prefix = "spring.datasource.tomcat")
 		public org.apache.tomcat.jdbc.pool.DataSource dataSource(
-				DataSourceProperties properties) {
+				@Qualifier("dataSourceProperties") DataSourceProperties properties) {
 			return createTomcatDataSource(properties);
 		}
 
@@ -82,8 +89,8 @@ abstract class DataSourceConfiguration {
 
 		@Bean
 		@ConfigurationProperties(prefix = "spring.datasource1.tomcat")
-		public org.apache.tomcat.jdbc.pool.DataSource dataSource1() {
-			return createTomcatDataSource(dataSource1Properties());
+		public org.apache.tomcat.jdbc.pool.DataSource dataSource1(@Qualifier("dataSource1Properties") DataSourceProperties properties) {
+			return createTomcatDataSource(properties);
 		}
 
 	}
@@ -100,8 +107,8 @@ abstract class DataSourceConfiguration {
 
 		@Bean
 		@ConfigurationProperties(prefix = "spring.datasource2.tomcat")
-		public org.apache.tomcat.jdbc.pool.DataSource dataSource2() {
-			return createTomcatDataSource(dataSource2Properties());
+		public org.apache.tomcat.jdbc.pool.DataSource dataSource2(@Qualifier("dataSource2Properties") DataSourceProperties properties) {
+			return createTomcatDataSource(properties);
 		}
 
 	}
@@ -118,8 +125,8 @@ abstract class DataSourceConfiguration {
 
 		@Bean
 		@ConfigurationProperties(prefix = "spring.datasource3.tomcat")
-		public org.apache.tomcat.jdbc.pool.DataSource dataSource3() {
-			return createTomcatDataSource(dataSource3Properties());
+		public org.apache.tomcat.jdbc.pool.DataSource dataSource3(@Qualifier("dataSource3Properties") DataSourceProperties properties) {
+			return createTomcatDataSource(properties);
 		}
 
 	}
@@ -136,8 +143,8 @@ abstract class DataSourceConfiguration {
 
 		@Bean
 		@ConfigurationProperties(prefix = "spring.datasource4.tomcat")
-		public org.apache.tomcat.jdbc.pool.DataSource dataSource4() {
-			return createTomcatDataSource(dataSource4Properties());
+		public org.apache.tomcat.jdbc.pool.DataSource dataSource4(@Qualifier("dataSource4Properties") DataSourceProperties properties) {
+			return createTomcatDataSource(properties);
 		}
 
 	}
@@ -154,8 +161,8 @@ abstract class DataSourceConfiguration {
 
 		@Bean
 		@ConfigurationProperties(prefix = "spring.datasource5.tomcat")
-		public org.apache.tomcat.jdbc.pool.DataSource dataSource5() {
-			return createTomcatDataSource(dataSource5Properties());
+		public org.apache.tomcat.jdbc.pool.DataSource dataSource5(@Qualifier("dataSource4Properties") DataSourceProperties properties) {
+			return createTomcatDataSource(properties);
 		}
 
 	}
@@ -172,8 +179,8 @@ abstract class DataSourceConfiguration {
 
 		@Bean
 		@ConfigurationProperties(prefix = "spring.datasource6.tomcat")
-		public org.apache.tomcat.jdbc.pool.DataSource dataSource6() {
-			return createTomcatDataSource(dataSource6Properties());
+		public org.apache.tomcat.jdbc.pool.DataSource dataSource6(@Qualifier("dataSource6Properties") DataSourceProperties properties) {
+			return createTomcatDataSource(properties);
 		}
 
 	}
@@ -184,11 +191,18 @@ abstract class DataSourceConfiguration {
 	@ConditionalOnClass(HikariDataSource.class)
 	@ConditionalOnProperty(name = "spring.datasource.type", havingValue = "com.zaxxer.hikari.HikariDataSource", matchIfMissing = true)
 	static class Hikari extends DataSourceConfiguration {
+		
+		@Bean
+		@Primary
+		@ConfigurationProperties(prefix = "spring.datasource")
+		public DataSourceProperties dataSourceProperties() {
+			return new DataSourceProperties();
+		}
 
 		@Bean
 		@Primary
 		@ConfigurationProperties(prefix = "spring.datasource.hikari")
-		public HikariDataSource dataSource(DataSourceProperties properties) {
+		public HikariDataSource dataSource(@Qualifier("dataSourceProperties") DataSourceProperties properties) {
 			return createDataSource(properties, HikariDataSource.class);
 		}
 
@@ -206,8 +220,8 @@ abstract class DataSourceConfiguration {
 
 		@Bean
 		@ConfigurationProperties(prefix = "spring.datasource1.hikari")
-		public HikariDataSource dataSource1() {
-			return createDataSource(dataSource1Properties(), HikariDataSource.class);
+		public HikariDataSource dataSource1(@Qualifier("dataSource1Properties") DataSourceProperties properties) {
+			return createDataSource(properties, HikariDataSource.class);
 		}
 
 	}
@@ -224,8 +238,8 @@ abstract class DataSourceConfiguration {
 
 		@Bean
 		@ConfigurationProperties(prefix = "spring.datasource2.hikari")
-		public HikariDataSource dataSource2() {
-			return createDataSource(dataSource2Properties(), HikariDataSource.class);
+		public HikariDataSource dataSource2(@Qualifier("dataSource2Properties") DataSourceProperties properties) {
+			return createDataSource(properties, HikariDataSource.class);
 		}
 
 	}
@@ -242,8 +256,8 @@ abstract class DataSourceConfiguration {
 
 		@Bean
 		@ConfigurationProperties(prefix = "spring.datasource3.hikari")
-		public HikariDataSource dataSource3() {
-			return createDataSource(dataSource3Properties(), HikariDataSource.class);
+		public HikariDataSource dataSource3(@Qualifier("dataSource3Properties") DataSourceProperties properties) {
+			return createDataSource(properties, HikariDataSource.class);
 		}
 
 	}
@@ -260,8 +274,8 @@ abstract class DataSourceConfiguration {
 
 		@Bean
 		@ConfigurationProperties(prefix = "spring.datasource4.hikari")
-		public HikariDataSource dataSource4() {
-			return createDataSource(dataSource4Properties(), HikariDataSource.class);
+		public HikariDataSource dataSource4(@Qualifier("dataSource4Properties") DataSourceProperties properties) {
+			return createDataSource(properties, HikariDataSource.class);
 		}
 
 	}
@@ -278,8 +292,8 @@ abstract class DataSourceConfiguration {
 
 		@Bean
 		@ConfigurationProperties(prefix = "spring.datasource5.hikari")
-		public HikariDataSource dataSource5() {
-			return createDataSource(dataSource5Properties(), HikariDataSource.class);
+		public HikariDataSource dataSource5(@Qualifier("dataSource5Properties") DataSourceProperties properties) {
+			return createDataSource(properties, HikariDataSource.class);
 		}
 
 	}
@@ -296,8 +310,8 @@ abstract class DataSourceConfiguration {
 
 		@Bean
 		@ConfigurationProperties(prefix = "spring.datasource6.hikari")
-		public HikariDataSource dataSource6() {
-			return createDataSource(dataSource6Properties(), HikariDataSource.class);
+		public HikariDataSource dataSource6(@Qualifier("dataSource6Properties") DataSourceProperties properties) {
+			return createDataSource(properties, HikariDataSource.class);
 		}
 
 	}
@@ -308,12 +322,19 @@ abstract class DataSourceConfiguration {
 	@ConditionalOnClass(org.apache.commons.dbcp2.BasicDataSource.class)
 	@ConditionalOnProperty(name = "spring.datasource.type", havingValue = "org.apache.commons.dbcp2.BasicDataSource", matchIfMissing = true)
 	static class Dbcp2 extends DataSourceConfiguration {
+		
+		@Bean
+		@ConfigurationProperties(prefix = "spring.datasource")
+		@Primary
+		public DataSourceProperties dataSourceProperties() {
+			return new DataSourceProperties();
+		}
 
 		@Bean
 		@Primary
 		@ConfigurationProperties(prefix = "spring.datasource.dbcp2")
 		public org.apache.commons.dbcp2.BasicDataSource dataSource(
-				DataSourceProperties properties) {
+				@Qualifier("dataSourceProperties") DataSourceProperties properties) {
 			return createDataSource(properties,
 					org.apache.commons.dbcp2.BasicDataSource.class);
 		}
@@ -332,8 +353,8 @@ abstract class DataSourceConfiguration {
 
 		@Bean
 		@ConfigurationProperties(prefix = "spring.datasource1.dbcp2")
-		public org.apache.commons.dbcp2.BasicDataSource dataSource1() {
-			return createDataSource(dataSource1Properties(),
+		public org.apache.commons.dbcp2.BasicDataSource dataSource1(@Qualifier("dataSource1Properties") DataSourceProperties properties) {
+			return createDataSource(properties,
 					org.apache.commons.dbcp2.BasicDataSource.class);
 		}
 
@@ -351,8 +372,8 @@ abstract class DataSourceConfiguration {
 
 		@Bean
 		@ConfigurationProperties(prefix = "spring.datasource2.dbcp2")
-		public org.apache.commons.dbcp2.BasicDataSource dataSource2() {
-			return createDataSource(dataSource2Properties(),
+		public org.apache.commons.dbcp2.BasicDataSource dataSource2(@Qualifier("dataSource2Properties") DataSourceProperties properties) {
+			return createDataSource(properties,
 					org.apache.commons.dbcp2.BasicDataSource.class);
 		}
 
@@ -370,8 +391,8 @@ abstract class DataSourceConfiguration {
 
 		@Bean
 		@ConfigurationProperties(prefix = "spring.datasource3.dbcp2")
-		public org.apache.commons.dbcp2.BasicDataSource dataSource3() {
-			return createDataSource(dataSource3Properties(),
+		public org.apache.commons.dbcp2.BasicDataSource dataSource3(@Qualifier("dataSource3Properties") DataSourceProperties properties) {
+			return createDataSource(properties,
 					org.apache.commons.dbcp2.BasicDataSource.class);
 		}
 
@@ -389,8 +410,8 @@ abstract class DataSourceConfiguration {
 
 		@Bean
 		@ConfigurationProperties(prefix = "spring.datasource4.dbcp2")
-		public org.apache.commons.dbcp2.BasicDataSource dataSource4() {
-			return createDataSource(dataSource4Properties(),
+		public org.apache.commons.dbcp2.BasicDataSource dataSource4(@Qualifier("dataSource4Properties") DataSourceProperties properties) {
+			return createDataSource(properties,
 					org.apache.commons.dbcp2.BasicDataSource.class);
 		}
 
@@ -408,8 +429,8 @@ abstract class DataSourceConfiguration {
 
 		@Bean
 		@ConfigurationProperties(prefix = "spring.datasource5.dbcp2")
-		public org.apache.commons.dbcp2.BasicDataSource dataSource5() {
-			return createDataSource(dataSource5Properties(),
+		public org.apache.commons.dbcp2.BasicDataSource dataSource5(@Qualifier("dataSource6Properties") DataSourceProperties properties) {
+			return createDataSource(properties,
 					org.apache.commons.dbcp2.BasicDataSource.class);
 		}
 
@@ -427,8 +448,8 @@ abstract class DataSourceConfiguration {
 
 		@Bean
 		@ConfigurationProperties(prefix = "spring.datasource6.dbcp2")
-		public org.apache.commons.dbcp2.BasicDataSource dataSource6() {
-			return createDataSource(dataSource6Properties(),
+		public org.apache.commons.dbcp2.BasicDataSource dataSource6(@Qualifier("dataSource6Properties") DataSourceProperties properties) {
+			return createDataSource(properties,
 					org.apache.commons.dbcp2.BasicDataSource.class);
 		}
 
@@ -441,10 +462,17 @@ abstract class DataSourceConfiguration {
 	@ConditionalOnProperty(name = "spring.datasource.type")
 	@Primary
 	static class Generic {
+		
+		@Bean
+		@ConfigurationProperties(prefix = "spring.datasource")
+		@ConditionalOnMissingBean
+		public DataSourceProperties dataSourceProperties() {
+			return new DataSourceProperties();
+		}
 
 		@Bean
 		@Primary
-		public DataSource dataSource(DataSourceProperties properties) {
+		public DataSource dataSource(@Qualifier("dataSourceProperties") DataSourceProperties properties) {
 			return properties.initializeDataSourceBuilder().build();
 		}
 
@@ -461,8 +489,8 @@ abstract class DataSourceConfiguration {
 		}
 
 		@Bean
-		public DataSource dataSource1() {
-			return dataSource1Properties().initializeDataSourceBuilder().build();
+		public DataSource dataSource1(@Qualifier("dataSource1Properties") DataSourceProperties properties) {
+			return properties.initializeDataSourceBuilder().build();
 		}
 
 	}
@@ -478,8 +506,8 @@ abstract class DataSourceConfiguration {
 		}
 
 		@Bean
-		public DataSource dataSource2() {
-			return dataSource2Properties().initializeDataSourceBuilder().build();
+		public DataSource dataSource2(@Qualifier("dataSource2Properties") DataSourceProperties properties) {
+			return properties.initializeDataSourceBuilder().build();
 		}
 
 	}
@@ -495,8 +523,8 @@ abstract class DataSourceConfiguration {
 		}
 
 		@Bean
-		public DataSource dataSource3() {
-			return dataSource3Properties().initializeDataSourceBuilder().build();
+		public DataSource dataSource3(@Qualifier("dataSource3Properties") DataSourceProperties properties) {
+			return properties.initializeDataSourceBuilder().build();
 		}
 
 	}
@@ -512,8 +540,8 @@ abstract class DataSourceConfiguration {
 		}
 
 		@Bean
-		public DataSource dataSource4() {
-			return dataSource4Properties().initializeDataSourceBuilder().build();
+		public DataSource dataSource4(@Qualifier("dataSource4Properties") DataSourceProperties properties) {
+			return properties.initializeDataSourceBuilder().build();
 		}
 
 	}
@@ -529,8 +557,8 @@ abstract class DataSourceConfiguration {
 		}
 
 		@Bean
-		public DataSource dataSource5() {
-			return dataSource5Properties().initializeDataSourceBuilder().build();
+		public DataSource dataSource5(@Qualifier("dataSource5Properties") DataSourceProperties properties) {
+			return properties.initializeDataSourceBuilder().build();
 		}
 
 	}
@@ -547,8 +575,8 @@ abstract class DataSourceConfiguration {
 
 
 		@Bean
-		public DataSource dataSource6() {
-			return dataSource6Properties().initializeDataSourceBuilder().build();
+		public DataSource dataSource6(@Qualifier("dataSource6Properties") DataSourceProperties properties) {
+			return properties.initializeDataSourceBuilder().build();
 		}
 
 	}
